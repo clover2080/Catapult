@@ -15,7 +15,9 @@ class Stone(Animation):
         self.init_animation()
         self.moveX = 10
         self.moveY = 3
+        self.conflict_count = 0
 
+        
     def update(self):
         self.calc_next_frame()
 
@@ -58,10 +60,18 @@ class Stone(Animation):
         return (x + new_x, y + (new_y*-1))
 
     def update(self):
+        if self.rect.y == -100:
+            return
         if self.rect.left < 0 or self.rect.right > 415:
             self.moveX = -self.moveX
+            self.conflict_count+=1
+            #print(1)
         if self.rect.top < 0 or self.rect.bottom > 300:
             self.moveY = -self.moveY
+            self.conflict_count+=1
+    
+        if self.conflict_count >=10:
+            self.kill()
 
         self.rect.x += self.moveX
         self.rect.y += self.moveY
