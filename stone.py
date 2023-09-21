@@ -16,16 +16,9 @@ class Stone(Animation):
         self.moveX = 10
         self.moveY = 3
         self.conflict_count = 0
-
         
-    def update(self):
-        self.calc_next_frame()
-
-        rect = (self.sprite_width*self.current_frame, 0,
-                self.sprite_width, self.sprite_height)
-        self.image.blit( self.sprite_sheet, (0,0), rect)
-        self.image.set_colorkey(Color(255, 0, 255))
-
+   # def update(self):
+    
     def setup(self, initial_pos, power, direction):
         self.initial_pos = initial_pos
         self.rect.x = initial_pos[0]
@@ -60,6 +53,13 @@ class Stone(Animation):
         return (x + new_x, y + (new_y*-1))
 
     def update(self):
+        self.calc_next_frame()
+
+        rect = (self.sprite_width*self.current_frame, 0,
+                self.sprite_width, self.sprite_height)
+        self.image.blit( self.sprite_sheet, (0,0), rect)
+        self.image.set_colorkey(Color(255, 0, 255))
+        
         if self.rect.y == -100:
             return
         if self.rect.left < 0 or self.rect.right > 415:
@@ -69,12 +69,11 @@ class Stone(Animation):
         if self.rect.top < 0 or self.rect.bottom > 300:
             self.moveY = -self.moveY
             self.conflict_count+=1
-    
+
         if self.conflict_count >=10:
             self.kill()
 
         self.rect.x += self.moveX
         self.rect.y += self.moveY
-
 
     #돌 코드

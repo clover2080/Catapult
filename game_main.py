@@ -138,13 +138,20 @@ if __name__ == "__main__":
             t += 0.5
             stone.move(t,
                        (screen.get_width(), screen.get_height()),
-                       decrement_stones)
-
+                       decrement_stones)            
+        elif not stone.alive():
+            
+            stone = Stone()
+            stone.rect.x = -100
+            stone.rect.y = -100
+            stone_group.add(stone)
+            catapult.stone = stone
 
         if alien1.alive():
             collided = pygame.sprite.groupcollide(
                         stone_group, alien1_group, False, True)
             if collided:
+                 # 폭발 좌표값 구하기
                 explosion1.rect.x = \
                     (alien1.rect.x + alien1.rect.width/2) - \
                     explosion1.rect.width/2
@@ -158,7 +165,7 @@ if __name__ == "__main__":
             alien1.rect.x = 350
             alien1.rect.y = BASE_Y
             alien1_group.add(alien1)
-            explosion1 = Explosion()
+            explosion1 = Explosion()        #폭발 새로 생성
             explosion1_group.add(explosion1)
 
         if alien2.alive():
@@ -176,6 +183,7 @@ if __name__ == "__main__":
             alien2_group.add(alien2)
             explosion2 = Explosion()
             explosion2_group.add(explosion2)
+            
             #외계인이 죽고 폭발 애니메이션도 끝났을 때.
             
             alien1_count -= 1
